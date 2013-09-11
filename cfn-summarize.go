@@ -32,10 +32,13 @@ type CloudFormationTemplate struct {
 }
 
 var acme bool
+var show bool
 
 func main() {
 	// This is a feature that is probably only useful to @drocamor
 	flag.BoolVar(&acme, "a", false, "Show acme addresses of items")
+	flag.BoolVar(&show, "s", false, "Show the cfn-show command to detail this resource")
+
 	flag.Parse()
 
 	if len(flag.Args()) != 1 {
@@ -62,6 +65,9 @@ func main() {
 				fmt.Printf(`%s:/%s\"[\ ]*:/`, flag.Arg(0), k)
 				fmt.Printf("\n")
 			}
+			if show {
+				fmt.Printf("cfn-show %s Mappings/%s\n", flag.Arg(0), k)
+			}
 			fmt.Printf("\n")
 		}
 	}
@@ -73,6 +79,9 @@ func main() {
 			if acme {
 				fmt.Printf(`%s:/%s\"[\ ]*:/`, flag.Arg(0), k)
 				fmt.Printf("\n")
+			}
+			if show {
+				fmt.Printf("cfn-show %s Outputs/%s\n", flag.Arg(0), k)
 			}
 			fmt.Printf("Description: %s\n", v.Description)
 			fmt.Printf("\n")
@@ -86,6 +95,9 @@ func main() {
 			if acme {
 				fmt.Printf(`%s:/%s\"[\ ]*:/`, flag.Arg(0), k)
 				fmt.Printf("\n")
+			}
+			if show {
+				fmt.Printf("cfn-show %s Parameters/%s\n", flag.Arg(0), k)
 			}
 			fmt.Printf("Default: %s\n", v.Default)
 			fmt.Printf("Description: %s\n", v.Description)
@@ -102,6 +114,9 @@ func main() {
 			if acme {
 				fmt.Printf(`%s:/%s\"[\ ]*:/`, flag.Arg(0), k)
 				fmt.Printf("\n")
+			}
+			if show {
+				fmt.Printf("cfn-show %s Resources/%s\n", flag.Arg(0), k)
 			}
 			fmt.Printf("Type: %s\n", v.Type)
 			fmt.Printf("\n")
