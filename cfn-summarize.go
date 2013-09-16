@@ -34,7 +34,16 @@ type CloudFormationTemplate struct {
 var acme bool
 var show bool
 
+func usage() {
+	fmt.Fprintf(os.Stderr, "usage: cfn-summarize template\n")
+	flag.PrintDefaults()
+}
+
+
 func main() {
+
+	flag.Usage = usage
+	
 	// This is a feature that is probably only useful to @drocamor
 	flag.BoolVar(&acme, "a", false, "Show acme addresses of items")
 	flag.BoolVar(&show, "s", false, "Show the cfn-show command to detail this resource")
@@ -42,7 +51,7 @@ func main() {
 	flag.Parse()
 
 	if len(flag.Args()) != 1 {
-		fmt.Println("You must provide one CloudFormation template to summarize.")
+		flag.Usage()
 		os.Exit(1)
 	}
 
