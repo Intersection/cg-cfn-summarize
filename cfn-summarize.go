@@ -35,21 +35,21 @@ var acme bool
 var show bool
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: cfn-summarize template\n")
+	fmt.Fprintf(os.Stderr, "usage: cfn-summarize [-as] template\n")
 	flag.PrintDefaults()
 }
-
 
 func main() {
 
 	flag.Usage = usage
-	
+
 	// This is a feature that is probably only useful to @drocamor
 	flag.BoolVar(&acme, "a", false, "Show acme addresses of items")
 	flag.BoolVar(&show, "s", false, "Show the cfn-show command to detail this resource")
 
 	flag.Parse()
 
+	// You must provide at least one template file to summarize
 	if len(flag.Args()) != 1 {
 		flag.Usage()
 		os.Exit(1)
